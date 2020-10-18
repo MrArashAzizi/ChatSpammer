@@ -1,4 +1,5 @@
-import os, pyautogui, time
+import os, pyautogui, time, random
+from progress.bar import Bar
 
 class color : 
    GREEN = '\033[92m'
@@ -30,7 +31,7 @@ MessageText = input("  [?] What text should I send her/him? ")
 Repeats = int(input("  [?] How many times should I send the message? "))
 
 # Send messages interval
-MessageInterval = int(input("  [?] How many milliseconds(No seconds! -> 1000ms = 1s) should I put between each message?  "))
+MessageInterval = int(input("  [?] How many milliseconds(No seconds! -> 1000ms = 1s | Use 0 for Random) should I put between each message?  "))
 print()
 
 # Asking from user to open the app
@@ -42,8 +43,10 @@ print("  [!] You have 5 Seconds to refocus the text input area of your messaging
 # 5 second pause
 time.sleep(5)
 
-# Message sending loop
+# Progressbar
+bar = Bar('  [!] Processing' , max = Repeats)
 for i in range(0,Repeats):
+	# Message sending loop
 	if MessageText != "":
 		pyautogui.typewrite(MessageText)     
 		pyautogui.press("enter")
@@ -51,11 +54,16 @@ for i in range(0,Repeats):
 		pyautogui.typewrite("Love U")     
 		pyautogui.press("enter")
 
-	time.sleep(MessageInterval/1000)
+	bar.next()
+	if MessageInterval == 0:
+		time.sleep(random.randint(500, 3500)/1000)
+	else:
+		time.sleep(MessageInterval/1000)
 
 print()
 print()
 
+bar.finish()
 print(color.GREEN + "  [~] Done... :)")
 
 print()
@@ -64,4 +72,3 @@ print()
 
 # Exit
 input(color.WHITE + "  [*] Press ENTER for exit: ")
-
